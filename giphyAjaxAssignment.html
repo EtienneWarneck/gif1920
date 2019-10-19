@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Giphy CLean Ajax</title>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cleaning Tools Search</h1>
+
+        <div id="addButtonsArray">TOPICS: </div> <!-- ARRAY BUTTONS -->
+        <br>
+        <form action="">
+            <label for="tool-input">Add a cleaning tool:</label> <!-- -->
+            <input type="text" id="tool-input"> <!-- INPUT -->
+            <input type="submit" id="add-tool"> <!-- SUBMIT-->
+            <div id="addNewButtons"></div> <!-- EMPTY DIV NEW BUTTONS -->
+        </form>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+
+            var arrayCleaning = ["windex", "roomba", "swiffer", "soap"];
+
+            function displayGifs() {
+
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + arrayCleaning + "&apikey=sIsYbmw6h1wJJsPI3qaeY1Oy5a5R4CzE&limit=10";
+                console.log(queryURL);
+
+                $.ajax({ url: queryURL, method: "GET" }).then(function (response) {
+                    console.log(response);
+
+                    var results = response.data;
+                    console.log(results);
+
+                    var imageUrl = results[i].image_original_url;
+                    var rating = results[i].rating;
+                });
+            };
+
+            function renderArray() { //CREATE AND DISPLAY BUTTONS FROM ARRAY
+                // console.log("renderArray", renderArray);
+                // $("#addButtonsArray").empty();
+                for (var i = 0; i < arrayCleaning.length; i++) {
+                    var a = $("<button>");
+                    a.addClass("cleaning");
+                    a.attr("data-name-tool", arrayCleaning[i]);  // Adding a data-* attribute
+                    a.text(arrayCleaning[i]);
+                    $("#addButtonsArray").append(a);  // Adding the button to the div
+                };
+            };
+
+            $("#addNewButtons").on("click", function NewButtons(event) {
+                event.preventDefault();
+                var newTool = $("#tool-input").val().trim();
+                newTool.push(arrayCleaning);
+                renderArray();
+            });
+
+            // Generic function for displaying the gifs
+            $(document).on("click", function displayGifs() {
+
+                // tool.attr("src", imageUrl);
+                // $("").prepend(tool);
+            });
+
+            renderArray();
+
+        </script>
+    </div>
+</body>
+
+</html>
