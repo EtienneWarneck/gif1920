@@ -21,6 +21,8 @@
             <input type="submit" id="add-tool"> <!-- SUBMIT-->
             <div id="addNewButtons"></div> <!-- EMPTY DIV NEW BUTTONS -->
         </form>
+    <br>
+        <div id="gifs-appear-here"></div> <!-- GIFS APPEAR HERE -->
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script type="text/javascript">
@@ -28,24 +30,35 @@
             var arrayCleaning = ["windex", "roomba", "swiffer", "soap"];
 
             function displayGifs() {
+                // event.preventDefault();
+                var topic = $(this).attr("data-name-tool"); //
 
-                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + arrayCleaning + "&apikey=sIsYbmw6h1wJJsPI3qaeY1Oy5a5R4CzE&limit=10";
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&apikey=sIsYbmw6h1wJJsPI3qaeY1Oy5a5R4CzE&limit=10";
                 console.log(queryURL);
 
                 $.ajax({ url: queryURL, method: "GET" }).then(function (response) {
-                    console.log(response);
-
+                    console.log("RESPONSE", response);
                     var results = response.data;
-                    console.log(results);
 
-                    var imageUrl = results[i].image_original_url;
-                    var rating = results[i].rating;
+                    for (var i = 0; i < results.length; i++) {
+                        var gifDiv = $("<div>");
+                        var title = results[i].title;
+                        var rating = results[i].rating;
+                        var p = $("<p>").text("Title: " + title + " " + "(Rating: " + rating + ")");
+                        var personImage = $("<img>");
+                        personImage.attr("src", results[i].images.fixed_height.url);
+                        gifDiv.prepend(p);
+                        gifDiv.prepend(personImage);
+
+                        $("#gifs-appear-here").prepend(gifDiv);
+
+                    }
+
                 });
             };
 
             function renderArray() { //CREATE AND DISPLAY BUTTONS FROM ARRAY
-                // console.log("renderArray", renderArray);
-                // $("#addButtonsArray").empty();
+
                 for (var i = 0; i < arrayCleaning.length; i++) {
                     var a = $("<button>");
                     a.addClass("cleaning");
@@ -62,12 +75,8 @@
                 renderArray();
             });
 
-            // Generic function for displaying the gifs
-            $(document).on("click", function displayGifs() {
-
-                // tool.attr("src", imageUrl);
-                // $("").prepend(tool);
-            });
+            // // Generic function for displaying the gifs
+            $(document).on("click", ".cleaning", displayGifs);
 
             renderArray();
 
