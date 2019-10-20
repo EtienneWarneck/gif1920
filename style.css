@@ -1,0 +1,28 @@
+
+*{
+    text-align: center;
+}
+
+#background{
+    background: url("/img_01.png");
+    height: 20px;
+}
+    
+    h1{
+    font-family: 'Fascinate Inline', cursive;
+    margin:0 auto;
+   text-align: center;
+}
+
+.cleaning {
+
+    border: 3px dotted black;
+    padding: 6px;
+    margin: 7px;
+}
+
+
+#label{
+    font-family: 'Fascinate Inline', cursive;
+    
+}
